@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基金助手</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>基金助手</h1>
+        <p>本地持仓分析与定投决策面板</p>
+      </div>
+      <div class="actions">
+        <button id="runCached" class="primary">重新计算</button>
+        <button id="runOnline">联网更新净值</button>
+        <a class="button" href="/dashboard" target="_blank" rel="noreferrer">打开看板</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="notice">
+        本工具只做个人持仓分析和规则执行辅助，不构成投资建议，不提供自动交易。持仓和预算在页面里手动输入；“重新计算”使用本地已保存净值，“联网更新净值”会先抓取公开净值。
+      </section>
+
+      <nav class="tabs" aria-label="页面">
+        <button class="tab active" data-tab="overview">今日建议</button>
+        <button class="tab" data-tab="holdings">持仓管理</button>
+        <button class="tab" data-tab="settings">策略设置</button>
+        <button class="tab" data-tab="report">日报</button>
+      </nav>
+
+      <section id="status" class="status" hidden></section>
+
+      <section id="overview" class="panel active">
+        <div class="metric-grid">
+          <div class="metric">
+            <span>报告日期</span>
+            <strong id="reportDate">-</strong>
+          </div>
+          <div class="metric">
+            <span>组合金额</span>
+            <strong id="totalValue">-</strong>
+          </div>
+          <div class="metric">
+            <span>今日预算</span>
+            <strong id="dailyBudget">-</strong>
+          </div>
+          <div class="metric">
+            <span>计划使用</span>
+            <strong id="plannedAmount">-</strong>
+          </div>
+        </div>
+
+        <div class="split">
+          <section>
+            <h2>今日买入</h2>
+            <div id="buyList" class="decision-list"></div>
+          </section>
+          <section>
+            <h2>组合风险</h2>
+            <div id="riskList" class="risk-list"></div>
+          </section>
+        </div>
+
+        <section>
+          <h2>全部决策</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>基金</th>
+                  <th>动作</th>
+                  <th>金额</th>
+                  <th>评分</th>
+                  <th>净值日期</th>
+                  <th>原因</th>
+                </tr>
+              </thead>
+              <tbody id="decisionRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="holdings" class="panel">
+        <div class="section-head">
+          <h2>持仓管理</h2>
+          <div class="actions">
+            <button id="addFund">新增基金</button>
+            <button id="saveConfig" class="primary">保存配置</button>
+            <button id="saveConfigAndRun">保存并重新计算</button>
+          </div>
+        </div>
+        <p class="hint">在这里更新支付宝里的持有金额、收益和目标占比。保存后重新计算，首页建议会按新的输入刷新。</p>
+        <div class="table-wrap">
+          <table class="editable-table">
+            <thead>
+              <tr>
+                <th>代码</th>
+                <th>名称</th>
+                <th>类型</th>
+                <th>分类</th>
+                <th>持有金额</th>
+                <th>目标占比</th>
+                <th>收益额</th>
+                <th>收益率</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="fundRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="settings" class="panel">
+        <div class="section-head">
+          <h2>策略设置</h2>
+          <div class="actions">
+            <button id="saveSettings" class="primary">保存设置</button>
+            <button id="saveSettingsAndRun">保存并重新计算</button>
+          </div>
+        </div>
+        <p class="hint">这里控制预算和风控规则。日预算留空时，会按月预算约 20 个交易日折算。</p>
+        <form id="settingsForm" class="settings-grid">
+          <label>
+            <span>风险等级</span>
+            <input name="risk_level" type="text" />
+          </label>
+          <label>
+            <span>月预算</span>
+            <input name="monthly_budget" type="number" step="1" min="0" />
+          </label>
+          <label>
+            <span>日预算</span>
+            <input name="daily_budget" type="number" step="1" min="0" placeholder="留空则按月预算折算" />
+          </label>
+          <label>
+            <span>现金储备</span>
+            <input name="cash_reserve" type="number" step="1" min="0" />
+          </label>
+          <label>
+            <span>单基金上限</span>
+            <input name="max_single_fund_ratio" type="number" step="0.01" min="0" max="1" />
+          </label>
+          <label>
+            <span>单分类上限</span>
+            <input name="max_sector_fund_ratio" type="number" step="0.01" min="0" max="1" />
+          </label>
+          <label class="checkline">
+            <input name="budget_confirmed" type="checkbox" />
+            <span>预算已确认</span>
+          </label>
+          <label class="wide">
+            <span>策略说明</span>
+            <textarea name="style" rows="4"></textarea>
+          </label>
+        </form>
+      </section>
+
+      <section id="report" class="panel">
+        <div class="section-head">
+          <h2>最新日报</h2>
+          <button id="reloadReport">刷新日报</button>
+        </div>
+        <pre id="reportText" class="report-text"></pre>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

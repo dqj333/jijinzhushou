@@ -1,0 +1,744 @@
+{
+  "report_date": "2026-05-20",
+  "profile": {
+    "risk_level": "medium",
+    "monthly_budget": 3000,
+    "cash_reserve": 0,
+    "max_single_fund_ratio": 0.25,
+    "max_sector_fund_ratio": 0.35,
+    "style": "稳健定投，允许低位小额加仓，不追涨，行业主题基金控制仓位"
+  },
+  "portfolio": {
+    "total_value": 1046.09,
+    "fund_count": 15,
+    "category_ratios": {
+      "红利低波": 0.1139,
+      "A股宽基": 0.1877,
+      "海外科技": 0.1146,
+      "债券": 0.4162,
+      "红利": 0.0567,
+      "海外宽基": 0.0197,
+      "黄金": 0.0187,
+      "港股科技": 0.0532,
+      "主动权益": 0.0097,
+      "农业": 0.0095
+    },
+    "risk_flags": [
+      "债券 类基金合计仓位 41.6% 超过分类上限 35%"
+    ]
+  },
+  "funds": [
+    {
+      "code": "008163",
+      "name": "南方红利低波50ETF联接A",
+      "type": "指数基金",
+      "category": "红利低波",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.0634,
+      "daily_return_pct": -0.1,
+      "estimate": null,
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 119.18,
+        "current_value": 119.11,
+        "profit_amount": -0.07,
+        "profit_pct": -0.06,
+        "monthly_plan": 0,
+        "target_ratio": 0.1,
+        "screenshot_profit_amount": -0.07,
+        "screenshot_profit_pct": -0.06,
+        "screenshot_yesterday_profit": -0.4,
+        "portfolio_ratio": 0.1139
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": -0.72,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -1.76,
+        "max_drawdown_all_pct": -1.76,
+        "position_60d_pct": 9.05,
+        "position_250d_pct": 9.05,
+        "annualized_volatility_60d_pct": 6.9,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "110020",
+      "name": "易方达沪深300ETF联接A",
+      "type": "宽基指数",
+      "category": "A股宽基",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.9772,
+      "daily_return_pct": -1.58,
+      "estimate": {
+        "fundcode": "110020",
+        "name": "易方达沪深300ETF联接A",
+        "jzrq": "2026-05-13",
+        "dwjz": "2.0089",
+        "gsz": "1.9752",
+        "gszzl": "-1.68",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 100.0,
+        "current_value": 103.35,
+        "profit_amount": 3.35,
+        "profit_pct": 3.35,
+        "monthly_plan": 0,
+        "target_ratio": 0.12,
+        "screenshot_profit_amount": 3.35,
+        "screenshot_profit_pct": 3.35,
+        "screenshot_yesterday_profit": 1.05,
+        "portfolio_ratio": 0.0988
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 0.34,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -1.58,
+        "max_drawdown_all_pct": -1.58,
+        "position_60d_pct": 74.46,
+        "position_250d_pct": 74.46,
+        "annualized_volatility_60d_pct": 12.33,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "022459",
+      "name": "易方达中证A500ETF联接A",
+      "type": "宽基指数",
+      "category": "A股宽基",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.347,
+      "daily_return_pct": -2.01,
+      "estimate": {
+        "fundcode": "022459",
+        "name": "易方达中证A500ETF联接A",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.3747",
+        "gsz": "1.3468",
+        "gszzl": "-2.03",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 90.0,
+        "current_value": 93.02,
+        "profit_amount": 3.02,
+        "profit_pct": 3.36,
+        "monthly_plan": 0,
+        "target_ratio": 0.12,
+        "screenshot_profit_amount": 3.02,
+        "screenshot_profit_pct": 3.36,
+        "screenshot_yesterday_profit": 1.02,
+        "portfolio_ratio": 0.0889
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 0.04,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -2.01,
+        "max_drawdown_all_pct": -2.01,
+        "position_60d_pct": 73.16,
+        "position_250d_pct": 73.16,
+        "annualized_volatility_60d_pct": 15.04,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "006555",
+      "name": "浦银安盛全球智能科技股票(QDII)A",
+      "type": "QDII股票",
+      "category": "海外科技",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-13",
+      "latest_nav": 3.7305,
+      "daily_return_pct": 2.66,
+      "estimate": {
+        "fundcode": "006555",
+        "name": "浦银安盛全球智能科技(QDII)A",
+        "jzrq": "2026-05-13",
+        "dwjz": "3.7305",
+        "gsz": "3.7435",
+        "gszzl": "0.35",
+        "gztime": "2026-05-14 22:24"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 10.0,
+        "current_value": 10.48,
+        "profit_amount": 0.48,
+        "profit_pct": 4.83,
+        "monthly_plan": 0,
+        "target_ratio": 0.08,
+        "screenshot_profit_amount": 0.48,
+        "screenshot_profit_pct": 4.83,
+        "screenshot_yesterday_profit": -0.3,
+        "portfolio_ratio": 0.01
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 5.03,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -4.17,
+        "max_drawdown_all_pct": -4.17,
+        "position_60d_pct": 98.53,
+        "position_250d_pct": 98.53,
+        "annualized_volatility_60d_pct": 41.96,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "270042",
+      "name": "广发纳斯达克100ETF联接(QDII)A",
+      "type": "QDII指数",
+      "category": "海外科技",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-13",
+      "latest_nav": 8.2621,
+      "daily_return_pct": 1.05,
+      "estimate": {
+        "fundcode": "270042",
+        "name": "广发纳斯达克100ETF联接人民币(QDII)A",
+        "jzrq": "2026-05-13",
+        "dwjz": "8.2621",
+        "gsz": "8.3090",
+        "gszzl": "0.57",
+        "gztime": "2026-05-14 22:23"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 60.0,
+        "current_value": 65.93,
+        "profit_amount": 5.93,
+        "profit_pct": 9.89,
+        "monthly_plan": 0,
+        "target_ratio": 0.08,
+        "screenshot_profit_amount": 5.93,
+        "screenshot_profit_pct": 9.89,
+        "screenshot_yesterday_profit": -0.61,
+        "portfolio_ratio": 0.063
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 2.5,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -1.15,
+        "max_drawdown_all_pct": -1.15,
+        "position_60d_pct": 100.0,
+        "position_250d_pct": 100.0,
+        "annualized_volatility_60d_pct": 20.47,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "000834",
+      "name": "大成纳斯达克100ETF联接(QDII)A",
+      "type": "QDII指数",
+      "category": "海外科技",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-13",
+      "latest_nav": 6.3861,
+      "daily_return_pct": 1.02,
+      "estimate": {
+        "fundcode": "000834",
+        "name": "大成纳斯达克100ETF联接(QDII)A",
+        "jzrq": "2026-05-13",
+        "dwjz": "6.3861",
+        "gsz": "6.4258",
+        "gszzl": "0.62",
+        "gztime": "2026-05-14 22:24"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 40.0,
+        "current_value": 43.43,
+        "profit_amount": 3.43,
+        "profit_pct": 8.56,
+        "monthly_plan": 0,
+        "target_ratio": 0.08,
+        "screenshot_profit_amount": 3.43,
+        "screenshot_profit_pct": 8.56,
+        "screenshot_yesterday_profit": -0.39,
+        "portfolio_ratio": 0.0415
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 2.37,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -1.14,
+        "max_drawdown_all_pct": -1.14,
+        "position_60d_pct": 100.0,
+        "position_250d_pct": 100.0,
+        "annualized_volatility_60d_pct": 19.79,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "004400",
+      "name": "金信民兴债券A",
+      "type": "债券基金",
+      "category": "债券",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.0619,
+      "daily_return_pct": 0.01,
+      "estimate": {
+        "fundcode": "004400",
+        "name": "金信民兴债券A",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.0618",
+        "gsz": "1.0617",
+        "gszzl": "-0.01",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 210.0,
+        "current_value": 210.16,
+        "profit_amount": 0.16,
+        "profit_pct": 0.08,
+        "monthly_plan": 0,
+        "target_ratio": 0.16,
+        "screenshot_profit_amount": 0.16,
+        "screenshot_profit_pct": 0.08,
+        "screenshot_yesterday_profit": 0.02,
+        "portfolio_ratio": 0.2009
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 0.06,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": 0.0,
+        "max_drawdown_all_pct": 0.0,
+        "position_60d_pct": 100.0,
+        "position_250d_pct": 100.0,
+        "annualized_volatility_60d_pct": 0.13,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "009051",
+      "name": "易方达中证红利ETF联接A",
+      "type": "指数基金",
+      "category": "红利",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.2848,
+      "daily_return_pct": -0.86,
+      "estimate": {
+        "fundcode": "009051",
+        "name": "易方达中证红利ETF联接发起式A",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.2959",
+        "gsz": "1.2837",
+        "gszzl": "-0.94",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 60.0,
+        "current_value": 59.36,
+        "profit_amount": -0.64,
+        "profit_pct": -1.07,
+        "monthly_plan": 0,
+        "target_ratio": 0.1,
+        "screenshot_profit_amount": -0.64,
+        "screenshot_profit_pct": -1.07,
+        "screenshot_yesterday_profit": -0.23,
+        "portfolio_ratio": 0.0567
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": -1.28,
+          "1m": 0.49,
+          "3m": 0.62,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -6.1,
+        "max_drawdown_all_pct": -6.1,
+        "position_60d_pct": 26.48,
+        "position_250d_pct": 55.35,
+        "annualized_volatility_60d_pct": 12.61,
+        "history_rows": 120
+      }
+    },
+    {
+      "code": "050025",
+      "name": "博时标普500ETF联接(QDII)A",
+      "type": "QDII指数",
+      "category": "海外宽基",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-13",
+      "latest_nav": 5.479,
+      "daily_return_pct": 0.57,
+      "estimate": {
+        "fundcode": "050025",
+        "name": "博时标普500ETF联接A",
+        "jzrq": "2026-05-13",
+        "dwjz": "5.4790",
+        "gsz": "5.4797",
+        "gszzl": "0.01",
+        "gztime": "2026-05-14 22:24"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 20.0,
+        "current_value": 20.66,
+        "profit_amount": 0.66,
+        "profit_pct": 3.28,
+        "monthly_plan": 0,
+        "target_ratio": 0.08,
+        "screenshot_profit_amount": 0.66,
+        "screenshot_profit_pct": 3.28,
+        "screenshot_yesterday_profit": -0.04,
+        "portfolio_ratio": 0.0197
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 0.86,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -0.84,
+        "max_drawdown_all_pct": -0.84,
+        "position_60d_pct": 100.0,
+        "position_250d_pct": 100.0,
+        "annualized_volatility_60d_pct": 11.27,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "007194",
+      "name": "长城短债债券A",
+      "type": "债券基金",
+      "category": "债券",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.2443,
+      "daily_return_pct": 0.01,
+      "estimate": {
+        "fundcode": "007194",
+        "name": "长城短债A",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.2442",
+        "gsz": "1.2443",
+        "gszzl": "0.01",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 215.0,
+        "current_value": 215.21,
+        "profit_amount": 0.21,
+        "profit_pct": 0.1,
+        "monthly_plan": 0,
+        "target_ratio": 0.16,
+        "screenshot_profit_amount": 0.21,
+        "screenshot_profit_pct": 0.1,
+        "screenshot_yesterday_profit": 0.03,
+        "portfolio_ratio": 0.2057
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": 0.06,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": 0.0,
+        "max_drawdown_all_pct": 0.0,
+        "position_60d_pct": 100.0,
+        "position_250d_pct": 100.0,
+        "annualized_volatility_60d_pct": 0.12,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "000218",
+      "name": "国泰黄金ETF联接A",
+      "type": "商品指数",
+      "category": "黄金",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 3.7204,
+      "daily_return_pct": -0.13,
+      "estimate": {
+        "fundcode": "000218",
+        "name": "国泰黄金ETF联接A",
+        "jzrq": "2026-05-13",
+        "dwjz": "3.7254",
+        "gsz": "3.7222",
+        "gszzl": "-0.09",
+        "gztime": "2026-05-14 22:23"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 20.0,
+        "current_value": 19.53,
+        "profit_amount": -0.47,
+        "profit_pct": -2.34,
+        "monthly_plan": 0,
+        "target_ratio": 0.06,
+        "screenshot_profit_amount": -0.47,
+        "screenshot_profit_pct": -2.34,
+        "screenshot_yesterday_profit": 0.02,
+        "portfolio_ratio": 0.0187
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": -0.98,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -4.6,
+        "max_drawdown_all_pct": -4.6,
+        "position_60d_pct": 37.67,
+        "position_250d_pct": 37.67,
+        "annualized_volatility_60d_pct": 11.8,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "013308",
+      "name": "易方达恒生科技ETF联接(QDII)A",
+      "type": "QDII指数",
+      "category": "港股科技",
+      "notes": "来自支付宝持仓截图，截图中收益金额被浮层部分遮挡，按收益率约 1.26% 估算为 +0.70 元",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.2105,
+      "daily_return_pct": -0.39,
+      "estimate": {
+        "fundcode": "013308",
+        "name": "易方达恒生科技ETF联接(QDII)A",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.2152",
+        "gsz": "1.2112",
+        "gszzl": "-0.33",
+        "gztime": "2026-05-14 16:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 55.0,
+        "current_value": 55.7,
+        "profit_amount": 0.7,
+        "profit_pct": 1.26,
+        "monthly_plan": 0,
+        "target_ratio": 0.08,
+        "screenshot_profit_amount": 0.7,
+        "screenshot_profit_pct": 1.26,
+        "screenshot_yesterday_profit": 0.24,
+        "portfolio_ratio": 0.0532
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": -0.88,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -5.04,
+        "max_drawdown_all_pct": -5.04,
+        "position_60d_pct": 83.44,
+        "position_250d_pct": 83.44,
+        "annualized_volatility_60d_pct": 24.15,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "010385",
+      "name": "华安汇嘉精选混合A",
+      "type": "主动混合",
+      "category": "主动权益",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.5214,
+      "daily_return_pct": -2.47,
+      "estimate": {
+        "fundcode": "010385",
+        "name": "华安汇嘉精选混合A",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.5599",
+        "gsz": "1.5262",
+        "gszzl": "-2.16",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 10.0,
+        "current_value": 10.18,
+        "profit_amount": 0.18,
+        "profit_pct": 1.78,
+        "monthly_plan": 0,
+        "target_ratio": 0.08,
+        "screenshot_profit_amount": 0.18,
+        "screenshot_profit_pct": 1.78,
+        "screenshot_yesterday_profit": 0.09,
+        "portfolio_ratio": 0.0097
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": -0.37,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -2.47,
+        "max_drawdown_all_pct": -2.47,
+        "position_60d_pct": 56.5,
+        "position_250d_pct": 56.5,
+        "annualized_volatility_60d_pct": 17.18,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "014064",
+      "name": "银华农业产业股票C",
+      "type": "主动股票",
+      "category": "农业",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.2725,
+      "daily_return_pct": 3.51,
+      "estimate": {
+        "fundcode": "014064",
+        "name": "银华农业产业股票发起式C",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.2293",
+        "gsz": "1.2777",
+        "gszzl": "3.93",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 10.0,
+        "current_value": 9.98,
+        "profit_amount": -0.02,
+        "profit_pct": -0.24,
+        "monthly_plan": 0,
+        "target_ratio": 0.05,
+        "screenshot_profit_amount": -0.02,
+        "screenshot_profit_pct": -0.24,
+        "screenshot_yesterday_profit": -0.15,
+        "portfolio_ratio": 0.0095
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": -1.75,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -7.01,
+        "max_drawdown_all_pct": -7.01,
+        "position_60d_pct": 46.65,
+        "position_250d_pct": 46.65,
+        "annualized_volatility_60d_pct": 27.17,
+        "history_rows": 20
+      }
+    },
+    {
+      "code": "000123",
+      "name": "汇添富实业债债券C",
+      "type": "债券基金",
+      "category": "债券",
+      "notes": "来自支付宝持仓截图，截图时间约 2026-05-14 21:59",
+      "latest_date": "2026-05-14",
+      "latest_nav": 1.5188,
+      "daily_return_pct": -0.47,
+      "estimate": {
+        "fundcode": "000123",
+        "name": "汇添富实业债债券C",
+        "jzrq": "2026-05-13",
+        "dwjz": "1.5260",
+        "gsz": "1.5210",
+        "gszzl": "-0.33",
+        "gztime": "2026-05-14 15:00"
+      },
+      "holding": {
+        "shares": null,
+        "cost_nav": null,
+        "cost_amount": 10.0,
+        "current_value": 9.99,
+        "profit_amount": -0.01,
+        "profit_pct": -0.06,
+        "monthly_plan": 0,
+        "target_ratio": 0.08,
+        "screenshot_profit_amount": -0.01,
+        "screenshot_profit_pct": -0.06,
+        "screenshot_yesterday_profit": 0.03,
+        "portfolio_ratio": 0.0095
+      },
+      "metrics": {
+        "returns_pct": {
+          "1w": -0.47,
+          "1m": null,
+          "3m": null,
+          "6m": null,
+          "1y": null
+        },
+        "max_drawdown_1y_pct": -0.47,
+        "max_drawdown_all_pct": -0.47,
+        "position_60d_pct": 52.0,
+        "position_250d_pct": 52.0,
+        "annualized_volatility_60d_pct": 3.07,
+        "history_rows": 20
+      }
+    }
+  ]
+}

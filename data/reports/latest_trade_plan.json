@@ -1,0 +1,293 @@
+{
+  "daily_budget": 75.0,
+  "planned_amount": 30,
+  "cash_left": 45.0,
+  "algorithm": {
+    "name": "目标仓位 + 回调增强 + 风险过滤",
+    "budget_rule": "月预算按20个交易日折算为日预算，不强行用完",
+    "amount_rule": "强信号30-40元，中信号20元，弱信号10元；单日最多买4只",
+    "hard_filters": [
+      "数据过期",
+      "仓位明显超目标",
+      "分类仓位超上限",
+      "目标仓位为0"
+    ]
+  },
+  "decisions": [
+    {
+      "code": "013308",
+      "name": "易方达恒生科技ETF联接(QDII)A",
+      "tier": "可以买",
+      "score": 4.75,
+      "reasons": [
+        "近250条净值处于低位",
+        "仓位低于目标",
+        "近一周有回撤"
+      ],
+      "risks": [
+        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 0.34,
+      "blocked": false,
+      "action": "可以买",
+      "amount": 30
+    },
+    {
+      "code": "008163",
+      "name": "南方标普红利低波50ETF联接A",
+      "tier": "可观察",
+      "score": 3.0,
+      "reasons": [
+        "近250条净值处于低位"
+      ],
+      "risks": [
+        "未触发明显单项风险"
+      ],
+      "latest_date": "2026-05-22",
+      "daily_return_pct": -0.39,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "006555",
+      "name": "浦银安盛全球智能科技股票(QDII)A",
+      "tier": "可观察",
+      "score": 0.5,
+      "reasons": [
+        "仓位明显低于目标",
+        "今日小幅回调",
+        "近一周有回撤"
+      ],
+      "risks": [
+        "近250条净值位置中性偏高",
+        "近一月涨幅较大",
+        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.66,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "050025",
+      "name": "博时标普500ETF联接(QDII)A",
+      "tier": "可观察",
+      "score": -1.25,
+      "reasons": [
+        "仓位明显低于目标",
+        "今日小幅回调"
+      ],
+      "risks": [
+        "近250条净值位置偏高，追涨风险较大",
+        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.71,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "270042",
+      "name": "广发纳斯达克100ETF联接人民币(QDII)A",
+      "tier": "禁止买",
+      "score": -3.25,
+      "reasons": [
+        "仓位低于目标",
+        "今日小幅回调"
+      ],
+      "risks": [
+        "近250条净值位置偏高，追涨风险较大",
+        "持仓已有较高浮盈",
+        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.7,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "000834",
+      "name": "大成纳斯达克100ETF联接(QDII)A",
+      "tier": "禁止买",
+      "score": -3.25,
+      "reasons": [
+        "仓位低于目标",
+        "今日小幅回调"
+      ],
+      "risks": [
+        "近250条净值位置偏高，追涨风险较大",
+        "持仓已有较高浮盈",
+        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.7,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "110020",
+      "name": "易方达沪深300ETF联接A",
+      "tier": "禁止买",
+      "score": -4.0,
+      "reasons": [
+        "仓位低于目标"
+      ],
+      "risks": [
+        "近250条净值位置偏高，追涨风险较大",
+        "今日已有上涨"
+      ],
+      "latest_date": "2026-05-22",
+      "daily_return_pct": 1.21,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "022459",
+      "name": "易方达中证A500ETF联接A",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 0.16,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "004400",
+      "name": "金信民兴债券A",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内",
+        "当前仓位明显超过目标仓位",
+        "债券 分类仓位已超过上限"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 0.02,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "009051",
+      "name": "易方达中证红利ETF联接发起式A",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": -0.31,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "007194",
+      "name": "长城短债A",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内",
+        "当前仓位明显超过目标仓位",
+        "债券 分类仓位已超过上限"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 0.02,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "000218",
+      "name": "国泰黄金ETF联接A",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": -1.32,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "010385",
+      "name": "华安汇嘉精选混合A",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 1.56,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "014064",
+      "name": "银华农业产业股票发起式C",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": -1.19,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "000123",
+      "name": "汇添富实业债债券C",
+      "tier": "禁止买",
+      "score": -99,
+      "reasons": [
+        "触发硬性风控"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内",
+        "债券 分类仓位已超过上限"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 0.02,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    }
+  ]
+}

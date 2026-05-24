@@ -1,0 +1,13 @@
+[project]
+name = "alipay-fund-assistant"
+version = "0.1.0"
+description = "Local fund portfolio helper for daily reports and buy-plan suggestions."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "requests>=2.31.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
