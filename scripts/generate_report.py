@@ -7,6 +7,11 @@ from fund_data import REPORT_DIR, read_json, write_json
 MIN_BUY_AMOUNT = 10
 TRADING_DAYS_PER_MONTH = 20
 MAX_BUY_FUNDS_PER_DAY = 4
+QUALITY_BUY_THRESHOLD = 65
+
+
+def clamp(value, low=0, high=100):
+    return max(low, min(high, value))
 
 
 def yuan(value):
@@ -65,6 +70,286 @@ def is_qdii_or_overseas(fund):
     return "QDII" in text or "海外" in text or "港股" in text or "纳斯达克" in text or "标普500" in text
 
 
+def is_index_fund(fund):
+    text = f"{fund.get('category') or ''} {fund.get('type') or ''} {fund.get('name') or ''}"
+    return "指数" in text or "ETF" in text or "联接" in text
+
+
+def component_label(score):
+    if score >= 80:
+        return "优秀"
+    if score >= 65:
+        return "合格"
+    if score >= 50:
+        return "一般"
+    return "偏弱"
+
+
+def score_risk_adjusted_return(fund):
+    metrics = fund["metrics"]
+    returns = metrics.get("returns_pct", {})
+    annual_return = returns.get("1y")
+    if annual_return is None and returns.get("6m") is not None:
+        annual_return = returns["6m"] * 2
+    if annual_return is None and returns.get("3m") is not None:
+        annual_return = returns["3m"] * 4
+
+    volatility = metrics.get("annualized_volatility_60d_pct")
+    if annual_return is None:
+        return 45, "风险调整收益数据不足"
+    if volatility is None or volatility <= 0:
+        volatility = 3 if is_bond_fund(fund) else 20
+
+    risk_adjusted = annual_return / max(volatility, 1)
+    score = 45 + risk_adjusted * 28
+    if annual_return > 0:
+        score += 5
+    return clamp(round(score, 1)), f"近似风险调整收益 {risk_adjusted:.2f}"
+
+
+def score_drawdown_control(fund):
+    drawdown = fund["metrics"].get("max_drawdown_1y_pct")
+    if drawdown is None:
+        return 50, "最大回撤数据不足"
+    dd = abs(drawdown)
+    if is_bond_fund(fund):
+        score = 95 - dd * 8
+    else:
+        score = 95 - dd * 2.2
+    return clamp(round(score, 1)), f"近一年最大回撤 {pct(drawdown)}"
+
+
+def score_stability(fund):
+    metrics = fund["metrics"]
+    returns = metrics.get("returns_pct", {})
+    periods = [returns.get(key) for key in ("1w", "1m", "3m", "6m", "1y")]
+    known = [value for value in periods if value is not None]
+    if not known:
+        return 45, "收益稳定性数据不足"
+
+    positive_ratio = sum(1 for value in known if value > 0) / len(known)
+    volatility = metrics.get("annualized_volatility_60d_pct")
+    score = 45 + positive_ratio * 35
+    if volatility is not None:
+        if is_bond_fund(fund):
+            score += max(0, 12 - volatility) * 1.5
+        else:
+            score += max(0, 25 - volatility) * 0.6
+    return clamp(round(score, 1)), f"{len(known)} 个观察周期中 {positive_ratio:.0%} 为正收益"
+
+
+def score_category_fit(fund):
+    text = f"{fund.get('category') or ''} {fund.get('type') or ''} {fund.get('name') or ''}"
+    if is_bond_fund(fund):
+        return 68, "债券类适合作为稳定仓，但不作为进攻加仓核心"
+    if "宽基" in text or "沪深300" in text or "中证A500" in text or "标普500" in text:
+        return 82, "宽基/海外宽基分散度较高"
+    if "红利" in text or "低波" in text:
+        return 78, "红利低波类具备防守和分红属性"
+    if "黄金" in text:
+        return 72, "黄金更适合作为组合对冲资产"
+    if "科技" in text or "纳斯达克" in text or "港股" in text or "农业" in text:
+        return 62, "主题/行业波动较大，需要控制仓位"
+    if "主动" in text or "混合" in text or "股票" in text:
+        return 58, "主动权益需要补充经理和同类排名数据"
+    return 60, "类别适配数据不足"
+
+
+def score_data_quality(fund):
+    metrics = fund["metrics"]
+    data_status = fund.get("data_status") or {}
+    rows = metrics.get("history_rows") or 0
+    score = 35
+    if rows >= 250:
+        score += 45
+    elif rows >= 120:
+        score += 32
+    elif rows >= 60:
+        score += 20
+    if not data_status.get("is_stale"):
+        score += 20
+    else:
+        days_old = data_status.get("days_old")
+        if days_old is not None and days_old <= 7:
+            score += 8
+    return clamp(round(score, 1)), f"历史净值 {rows} 条；{data_status.get('reason', '数据状态未知')}"
+
+
+def fund_quality_score(fund):
+    risk_return, risk_return_note = score_risk_adjusted_return(fund)
+    drawdown, drawdown_note = score_drawdown_control(fund)
+    stability, stability_note = score_stability(fund)
+    category_fit, category_note = score_category_fit(fund)
+    data_quality, data_note = score_data_quality(fund)
+
+    if is_index_fund(fund):
+        weights = {
+            "risk_adjusted_return": 0.35,
+            "drawdown_control": 0.25,
+            "stability": 0.15,
+            "category_fit": 0.15,
+            "data_quality": 0.10,
+        }
+    else:
+        weights = {
+            "risk_adjusted_return": 0.30,
+            "drawdown_control": 0.25,
+            "stability": 0.15,
+            "category_fit": 0.10,
+            "data_quality": 0.20,
+        }
+
+    components = {
+        "risk_adjusted_return": {
+            "score": risk_return,
+            "label": "风险调整收益",
+            "note": risk_return_note,
+        },
+        "drawdown_control": {
+            "score": drawdown,
+            "label": "回撤控制",
+            "note": drawdown_note,
+        },
+        "stability": {
+            "score": stability,
+            "label": "稳定性",
+            "note": stability_note,
+        },
+        "category_fit": {
+            "score": category_fit,
+            "label": "类别适配",
+            "note": category_note,
+        },
+        "data_quality": {
+            "score": data_quality,
+            "label": "数据质量",
+            "note": data_note,
+        },
+    }
+    score = sum(components[key]["score"] * weight for key, weight in weights.items())
+    return round(score, 1), components
+
+
+def allocation_need(fund, context, daily_budget):
+    holding = fund["holding"]
+    current_value = holding.get("current_value") or 0
+    target_ratio = holding.get("target_ratio")
+    total_after_budget = (context["portfolio"].get("total_value") or 0) + daily_budget
+    if target_ratio is None or target_ratio <= 0 or total_after_budget <= 0:
+        return {
+            "target_amount": 0,
+            "gap_amount": 0,
+            "gap_ratio": 0,
+            "score": 0,
+            "note": "目标仓位未设置",
+        }
+
+    target_amount = target_ratio * total_after_budget
+    gap_amount = target_amount - current_value
+    gap_ratio = gap_amount / target_amount if target_amount > 0 else 0
+
+    if gap_amount <= 0:
+        score = 0
+        note = "当前仓位不低于目标，不使用新增资金"
+    elif gap_ratio < 0.05:
+        score = 20
+        note = "仓位接近目标，避免频繁微调"
+    elif gap_ratio < 0.15:
+        score = 45
+        note = "轻微低配，可小额补齐"
+    elif gap_ratio < 0.30:
+        score = 70
+        note = "明显低配，优先补齐"
+    else:
+        score = 90
+        note = "严重低配，但仍受单日预算限制"
+
+    return {
+        "target_amount": round(target_amount, 2),
+        "gap_amount": round(gap_amount, 2),
+        "gap_ratio": round(gap_ratio, 4),
+        "score": score,
+        "note": note,
+    }
+
+
+def opportunity_factor(fund):
+    metrics = fund["metrics"]
+    returns = metrics.get("returns_pct", {})
+    position = metrics.get("position_window_pct")
+    one_week = returns.get("1w")
+    one_month = returns.get("1m")
+    drawdown = metrics.get("max_drawdown_1y_pct")
+
+    factor = 1.0
+    notes = []
+
+    if position is not None:
+        if position <= 20:
+            factor += 0.18
+            notes.append("净值处于历史低位")
+        elif position <= 40:
+            factor += 0.08
+            notes.append("净值位置不高")
+        elif position >= 85:
+            factor -= 0.22
+            notes.append("净值位置偏高")
+        elif position >= 75:
+            factor -= 0.12
+            notes.append("净值位置中性偏高")
+
+    if one_week is not None:
+        if one_week <= -5:
+            factor += 0.12
+            notes.append("近一周回撤较大")
+        elif one_week <= -2:
+            factor += 0.06
+            notes.append("近一周有回撤")
+        elif one_week >= 6:
+            factor -= 0.16
+            notes.append("近一周上涨过快")
+        elif one_week >= 3:
+            factor -= 0.08
+            notes.append("近一周涨幅较快")
+
+    if one_month is not None and one_month >= 10:
+        factor -= 0.10
+        notes.append("近一月涨幅较大")
+
+    if drawdown is not None and drawdown <= -25 and not is_bond_fund(fund):
+        factor += 0.05
+        notes.append("当前资产历史回撤较深，允许小幅提高补仓优先级")
+
+    if is_qdii_or_overseas(fund):
+        factor -= 0.03
+        notes.append("QDII/海外基金净值存在延迟，机会因子保守处理")
+
+    factor = round(max(0.7, min(1.3, factor)), 2)
+    return factor, notes or ["无明显估值/回撤机会，机会因子保持中性"]
+
+
+def data_confidence(fund):
+    data_status = fund.get("data_status") or {}
+    rows = fund["metrics"].get("history_rows") or 0
+    confidence = 1.0
+    notes = []
+    if rows < 120:
+        confidence -= 0.15
+        notes.append("历史净值不足 120 条")
+    if data_status.get("is_stale"):
+        days_old = data_status.get("days_old")
+        if days_old is None:
+            confidence -= 0.35
+        elif days_old > 10:
+            confidence -= 0.30
+        elif days_old > 5:
+            confidence -= 0.18
+        else:
+            confidence -= 0.10
+        notes.append(data_status.get("reason") or "净值数据不是最新")
+    return round(max(0.45, min(1.0, confidence)), 2), notes
+
+
 def hard_blocks(fund, context):
     holding = fund["holding"]
     profile = context["profile"]
@@ -74,193 +359,141 @@ def hard_blocks(fund, context):
     target_ratio = holding.get("target_ratio")
     category = fund.get("category") or "未分类"
     category_ratio = (portfolio.get("category_ratios") or {}).get(category)
+    max_single_ratio = profile.get("max_single_fund_ratio")
     max_sector_ratio = profile.get("max_sector_fund_ratio")
     blocks = []
 
-    if data_status.get("is_stale"):
-        blocks.append(data_status.get("reason") or "公开净值数据过期")
+    if not fund.get("latest_date"):
+        blocks.append("没有可用净值数据")
+    if data_status.get("days_old") is not None and data_status["days_old"] > (12 if is_qdii_or_overseas(fund) else 8):
+        blocks.append("净值数据过旧，不能新增买入")
     if target_ratio is not None and target_ratio <= 0:
         blocks.append("目标仓位为 0")
-    if current_ratio is not None and target_ratio is not None and current_ratio > target_ratio * 1.15:
-        blocks.append("当前仓位明显超过目标仓位")
+    if current_ratio is not None and target_ratio is not None and current_ratio > target_ratio * 1.20:
+        blocks.append("当前仓位超过目标仓位 120%")
+    if current_ratio is not None and max_single_ratio and current_ratio > max_single_ratio:
+        blocks.append("单只基金仓位超过组合上限")
     if category_ratio is not None and max_sector_ratio is not None and category_ratio > max_sector_ratio:
         blocks.append(f"{category} 分类仓位已超过上限")
     return blocks
 
 
-def evaluate_fund(fund, context):
-    holding = fund["holding"]
-    metrics = fund["metrics"]
-    returns = metrics.get("returns_pct", {})
-    position = metrics.get("position_window_pct")
-    position_days = metrics.get("position_window_days") or 0
-    current_ratio = holding.get("portfolio_ratio")
-    target_ratio = holding.get("target_ratio")
-    daily_return = fund.get("daily_return_pct")
-    one_week = returns.get("1w")
-    one_month = returns.get("1m")
-    profit_pct = holding.get("profit_pct")
+def evaluate_fund(fund, context, daily_budget):
+    quality_score, quality_components = fund_quality_score(fund)
+    allocation = allocation_need(fund, context, daily_budget)
+    opportunity, opportunity_notes = opportunity_factor(fund)
+    confidence, confidence_notes = data_confidence(fund)
     blocks = hard_blocks(fund, context)
-    score = 0.0
-    reasons = []
+
+    priority = round((quality_score / 100) * allocation["score"] * opportunity * confidence, 2)
+    reasons = [
+        f"基金质量 {quality_score}/100（{component_label(quality_score)}）",
+        f"配置缺口 {yuan(allocation['gap_amount'])}，偏离 {ratio(allocation['gap_ratio'])}：{allocation['note']}",
+        f"机会因子 {opportunity}：{'；'.join(opportunity_notes)}",
+    ]
     risks = []
+    if confidence_notes:
+        risks.extend(confidence_notes)
+    if quality_score < QUALITY_BUY_THRESHOLD:
+        risks.append(f"基金质量分低于买入阈值 {QUALITY_BUY_THRESHOLD}")
+    if allocation["gap_amount"] <= 0:
+        risks.append("组合不需要继续补该标的")
+    if blocks:
+        risks.extend(blocks)
 
     if blocks:
-        return {
-            "code": fund["code"],
-            "name": fund["name"],
-            "tier": "禁止买",
-            "score": -99,
-            "reasons": ["触发硬性风控"],
-            "risks": blocks,
-            "latest_date": fund.get("latest_date"),
-            "daily_return_pct": fund.get("daily_return_pct"),
-            "blocked": True,
-        }
-
-    if position is None:
-        risks.append("历史净值不足，不能判断位置分位")
-    elif position_days < 120:
-        risks.append(f"只有近{position_days}条净值，位置分位只作短期参考")
-        if position <= 25:
-            score += 1
-            reasons.append("短期位置偏低")
-        elif position >= 80:
-            score -= 2
-            risks.append("短期位置偏高")
-    else:
-        if position <= 20:
-            score += 3
-            reasons.append(f"近{position_days}条净值处于低位")
-        elif position <= 40:
-            score += 2
-            reasons.append(f"近{position_days}条净值位置不高")
-        elif position <= 65:
-            score += 1
-            reasons.append(f"近{position_days}条净值位置中性")
-        elif position >= 85:
-            score -= 4
-            risks.append(f"近{position_days}条净值位置偏高，追涨风险较大")
-        elif position >= 75:
-            score -= 2
-            risks.append(f"近{position_days}条净值位置中性偏高")
-
-    if current_ratio is not None and target_ratio is not None:
-        gap = target_ratio - current_ratio
-        if gap >= 0.04:
-            score += 2
-            reasons.append("仓位明显低于目标")
-        elif gap > 0.015:
-            score += 1
-            reasons.append("仓位低于目标")
-        elif gap >= 0:
-            risks.append("仓位接近目标")
-
-    if daily_return is not None:
-        if daily_return <= -2.5:
-            score += 1.5
-            reasons.append("今日明显回调，适合小额分批")
-        elif daily_return <= -0.5:
-            score += 0.75
-            reasons.append("今日小幅回调")
-        elif daily_return >= 2:
-            score -= 2
-            risks.append("今日涨幅较大，不追高")
-        elif daily_return >= 1:
-            score -= 1
-            risks.append("今日已有上涨")
-
-    if one_week is not None:
-        if one_week <= -5:
-            score += 1.5
-            reasons.append("近一周回撤较多")
-        elif one_week <= -2:
-            score += 0.75
-            reasons.append("近一周有回撤")
-        elif one_week >= 6:
-            score -= 2
-            risks.append("近一周涨幅偏大")
-        elif one_week >= 3:
-            score -= 1
-            risks.append("近一周上涨较快")
-
-    if one_month is not None and one_month >= 10:
-        score -= 1
-        risks.append("近一月涨幅较大")
-
-    if profit_pct is not None:
-        if profit_pct <= -5:
-            score += 0.5
-            reasons.append("持仓浮亏，可用纪律性小额加仓摊薄")
-        elif profit_pct >= 8:
-            score -= 1
-            risks.append("持仓已有较高浮盈")
-
-    if is_bond_fund(fund):
-        score -= 1
-        risks.append("债券基金偏稳定仓，不因短期波动频繁加仓")
-
-    if is_qdii_or_overseas(fund):
-        risks.append("QDII/海外基金净值有延迟，需要降低对今日涨跌的权重")
-
-    if score >= 4.5:
-        tier = "可以买"
-    elif score >= 2:
-        tier = "可观察"
-    elif score <= -2:
         tier = "禁止买"
+        priority = 0
+        blocked = True
+    elif quality_score < 50:
+        tier = "禁止买"
+        blocked = True
+    elif quality_score < QUALITY_BUY_THRESHOLD or allocation["score"] < 45:
+        tier = "可观察"
+        blocked = False
+    elif priority >= 45:
+        tier = "可以买"
+        blocked = False
     else:
         tier = "可观察"
+        blocked = False
 
     return {
         "code": fund["code"],
         "name": fund["name"],
         "tier": tier,
-        "score": round(score, 2),
-        "reasons": reasons or ["没有明显加仓优势"],
+        "score": priority,
+        "priority_score": priority,
+        "quality_score": quality_score,
+        "allocation_score": allocation["score"],
+        "opportunity_factor": opportunity,
+        "data_confidence": confidence,
+        "quality_components": quality_components,
+        "allocation": allocation,
+        "reasons": reasons,
         "risks": risks or ["未触发明显单项风险"],
         "latest_date": fund.get("latest_date"),
         "daily_return_pct": fund.get("daily_return_pct"),
-        "blocked": tier == "禁止买",
+        "blocked": blocked,
     }
 
 
-def amount_for_signal(score, daily_budget, remaining):
-    if daily_budget < MIN_BUY_AMOUNT or remaining < MIN_BUY_AMOUNT:
-        return 0
-    if score >= 6:
-        base = 40
-    elif score >= 4.5:
-        base = 30
-    elif score >= 3:
-        base = 20
-    else:
-        base = 10
-    max_single = max(MIN_BUY_AMOUNT, daily_budget * 0.45)
-    amount = min(base, max_single, remaining)
-    return int(amount // 10 * 10) if amount >= MIN_BUY_AMOUNT else 0
+def allocate_amounts(evaluated, daily_budget):
+    candidates = [
+        item
+        for item in evaluated
+        if item["tier"] == "可以买" and item["priority_score"] > 0 and item["allocation"]["gap_amount"] > 0
+    ]
+    candidates.sort(key=lambda item: item["priority_score"], reverse=True)
+    candidates = candidates[:MAX_BUY_FUNDS_PER_DAY]
+    if daily_budget < MIN_BUY_AMOUNT or not candidates:
+        return {item["code"]: 0 for item in evaluated}
+
+    total_priority = sum(item["priority_score"] for item in candidates)
+    remaining = int(daily_budget // 10 * 10)
+    amounts = {item["code"]: 0 for item in evaluated}
+    max_single = int(max(MIN_BUY_AMOUNT, daily_budget * 0.50) // 10 * 10)
+
+    for item in candidates:
+        raw_amount = daily_budget * item["priority_score"] / total_priority
+        amount = min(raw_amount, max_single, item["allocation"]["gap_amount"])
+        amount = int(amount // 10 * 10)
+        if amount >= MIN_BUY_AMOUNT:
+            amounts[item["code"]] = amount
+            remaining -= amount
+
+    while remaining >= MIN_BUY_AMOUNT:
+        changed = False
+        for item in candidates:
+            code = item["code"]
+            if remaining < MIN_BUY_AMOUNT:
+                break
+            if amounts[code] + MIN_BUY_AMOUNT > max_single:
+                continue
+            if amounts[code] + MIN_BUY_AMOUNT > item["allocation"]["gap_amount"]:
+                continue
+            amounts[code] += MIN_BUY_AMOUNT
+            remaining -= MIN_BUY_AMOUNT
+            changed = True
+        if not changed:
+            break
+
+    return amounts
 
 
 def allocate_today(context):
     profile = context["profile"]
     daily_budget = default_daily_budget(profile)
-    remaining = daily_budget
-    evaluated = [evaluate_fund(fund, context) for fund in context["funds"]]
-    evaluated.sort(key=lambda item: item["score"], reverse=True)
-    decisions = []
-    buy_count = 0
+    evaluated = [evaluate_fund(fund, context, daily_budget) for fund in context["funds"]]
+    evaluated.sort(key=lambda item: item["priority_score"], reverse=True)
+    amounts = allocate_amounts(evaluated, daily_budget)
 
+    decisions = []
     for item in evaluated:
+        amount = amounts.get(item["code"], 0)
         action = item["tier"]
-        amount = 0
-        if item["tier"] == "可以买" and buy_count < MAX_BUY_FUNDS_PER_DAY:
-            amount = amount_for_signal(item["score"], daily_budget, remaining)
-            if amount > 0:
-                action = "可以买"
-                remaining -= amount
-                buy_count += 1
-            else:
-                action = "可观察"
+        if item["tier"] == "可以买" and amount <= 0:
+            action = "可观察"
         decisions.append({**item, "action": action, "amount": amount})
 
     planned = sum(item["amount"] for item in decisions)
@@ -269,10 +502,15 @@ def allocate_today(context):
         "planned_amount": planned,
         "cash_left": round(daily_budget - planned, 2),
         "algorithm": {
-            "name": "目标仓位 + 回调增强 + 风险过滤",
-            "budget_rule": "月预算按20个交易日折算为日预算，不强行用完",
-            "amount_rule": "强信号30-40元，中信号20元，弱信号10元；单日最多买4只",
-            "hard_filters": ["数据过期", "仓位明显超目标", "分类仓位超上限", "目标仓位为0"],
+            "name": "基金质量 + 组合再平衡 + 机会因子",
+            "budget_rule": "月预算按约20个交易日折算为日预算；新增资金优先补低配资产，不强行用完",
+            "amount_rule": "候选需质量分>=65且低配；按优先级比例分配；单只最高50%日预算；单日最多4只",
+            "hard_filters": [
+                "无可用净值或数据过旧",
+                "目标仓位为0",
+                "仓位超过目标120%",
+                "单基金或分类仓位超过上限",
+            ],
         },
         "decisions": decisions,
     }
@@ -304,7 +542,9 @@ def render_report(context, plan):
         for item in buys:
             lines.append(
                 f"- {item['name']}（{item['code']}）：{yuan(item['amount'])}。"
-                f"评分 {item['score']}；依据：{'；'.join(item['reasons'])}。风险：{'；'.join(item['risks'])}"
+                f"优先级 {item['priority_score']}；质量 {item['quality_score']}/100；"
+                f"配置缺口 {yuan(item['allocation']['gap_amount'])}；机会因子 {item['opportunity_factor']}。"
+                f"依据：{'；'.join(item['reasons'])}。风险：{'；'.join(item['risks'])}"
             )
     else:
         lines.append("- 今日没有达到买入阈值的标的。")
@@ -312,14 +552,14 @@ def render_report(context, plan):
     lines.extend(["", "## 可观察", ""])
     for item in watch[:8]:
         lines.append(
-            f"- {item['name']}（{item['code']}）：评分 {item['score']}。"
+            f"- {item['name']}（{item['code']}）：优先级 {item['priority_score']}，质量 {item['quality_score']}/100。"
             f"依据：{'；'.join(item['reasons'])}。风险：{'；'.join(item['risks'])}"
         )
 
     lines.extend(["", "## 禁止买", ""])
     for item in blocked:
         lines.append(
-            f"- {item['name']}（{item['code']}）：评分 {item['score']}。主要风险：{'；'.join(item['risks'])}"
+            f"- {item['name']}（{item['code']}）：质量 {item['quality_score']}/100。主要原因：{'；'.join(item['risks'])}"
         )
 
     lines.extend(["", "## 组合风险", ""])
@@ -341,15 +581,21 @@ def render_report(context, plan):
         metrics = fund["metrics"]
         returns = metrics.get("returns_pct", {})
         decision = decision_by_code[fund["code"]]
+        components = decision["quality_components"]
+        component_text = "；".join(
+            f"{value['label']} {value['score']}" for value in components.values()
+        )
         lines.extend(
             [
                 f"### {fund['name']}（{fund['code']}）",
                 "",
-                f"- 档位：{decision['tier']}，金额 {yuan(decision['amount'])}，评分 {decision['score']}",
+                f"- 档位：{decision['action']}，金额 {yuan(decision['amount'])}，优先级 {decision['priority_score']}",
+                f"- 分层评分：质量 {decision['quality_score']}/100，配置 {decision['allocation_score']}/100，机会因子 {decision['opportunity_factor']}，数据可信度 {decision['data_confidence']}",
+                f"- 质量分项：{component_text}",
+                f"- 配置缺口：目标 {yuan(decision['allocation']['target_amount'])}，缺口 {yuan(decision['allocation']['gap_amount'])}，偏离 {ratio(decision['allocation']['gap_ratio'])}",
                 f"- 持仓：{yuan(holding.get('current_value'))}，收益 {yuan(holding.get('profit_amount'))} / {pct(holding.get('profit_pct'))}，组合占比 {ratio(holding.get('portfolio_ratio'))}",
                 f"- 净值：{nav(fund.get('latest_nav'))}（{fund.get('latest_date') or '待补数据'}），日涨跌 {pct(fund.get('daily_return_pct'))}",
                 f"- 表现：1周 {pct(returns.get('1w'))}，1月 {pct(returns.get('1m'))}，3月 {pct(returns.get('3m'))}，1年 {pct(returns.get('1y'))}",
-                f"- 数据：{(fund.get('data_status') or {}).get('reason', '未知')}",
                 f"- 位置：近{metrics.get('position_window_days', 0)}条净值 {pct(metrics.get('position_window_pct'))}（{classify_position(metrics.get('position_window_pct'))}），最大回撤 {pct(metrics.get('max_drawdown_1y_pct'))}，波动 {pct(metrics.get('annualized_volatility_60d_pct'))}",
                 f"- 依据：{'；'.join(decision['reasons'])}",
                 f"- 风险：{'；'.join(decision['risks'])}",
@@ -383,14 +629,16 @@ def render_dashboard(context, plan):
     risk_flags = portfolio.get("risk_flags", [])
     rows = []
     for item in plan["decisions"]:
-        action_class = {"可以买": "buy", "可观察": "watch", "禁止买": "pause"}.get(item["tier"], "watch")
+        action_class = {"可以买": "buy", "可观察": "watch", "禁止买": "pause"}.get(item["action"], "watch")
         rows.append(
             "<tr>"
             f"<td><strong>{escape_html(item['name'])}</strong><span>{escape_html(item['code'])}</span></td>"
-            f"<td><b class='{action_class}'>{escape_html(item['tier'])}</b></td>"
+            f"<td><b class='{action_class}'>{escape_html(item['action'])}</b></td>"
             f"<td>{yuan(item['amount'])}</td>"
-            f"<td>{escape_html(item.get('latest_date') or '待补')}<span>{pct(item.get('daily_return_pct'))}</span></td>"
-            f"<td>{item['score']}</td>"
+            f"<td>{item['quality_score']}</td>"
+            f"<td>{item['allocation_score']}</td>"
+            f"<td>{item['opportunity_factor']}</td>"
+            f"<td>{item['priority_score']}</td>"
             f"<td>{escape_html('；'.join(item['reasons']))}</td>"
             f"<td>{escape_html('；'.join(item['risks']))}</td>"
             "</tr>"
@@ -411,15 +659,15 @@ def render_dashboard(context, plan):
     body {{ margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f6f7fb; }}
     header {{ padding: 28px 32px; background: #ffffff; border-bottom: 1px solid #e6e8ef; }}
     h1 {{ margin: 0 0 8px; font-size: 28px; }}
-    main {{ max-width: 1180px; margin: 0 auto; padding: 24px; }}
+    main {{ max-width: 1280px; margin: 0 auto; padding: 24px; }}
     .grid {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }}
     .metric, section {{ background: #fff; border: 1px solid #e6e8ef; border-radius: 8px; }}
     .metric {{ padding: 16px; }}
     .metric span {{ display: block; color: #667085; font-size: 13px; }}
     .metric strong {{ display: block; margin-top: 6px; font-size: 24px; }}
-    section {{ padding: 18px; margin-bottom: 18px; }}
+    section {{ padding: 18px; margin-bottom: 18px; overflow: auto; }}
     h2 {{ margin: 0 0 14px; font-size: 18px; }}
-    table {{ width: 100%; border-collapse: collapse; table-layout: fixed; }}
+    table {{ width: 100%; border-collapse: collapse; min-width: 1100px; }}
     th, td {{ padding: 12px; border-top: 1px solid #edf0f5; text-align: left; vertical-align: top; font-size: 14px; }}
     th {{ color: #667085; font-weight: 600; background: #fafbfe; }}
     td span {{ display: block; color: #667085; font-size: 12px; margin-top: 4px; }}
@@ -432,15 +680,13 @@ def render_dashboard(context, plan):
     @media (max-width: 860px) {{
       main {{ padding: 14px; }}
       .grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
-      table {{ table-layout: auto; }}
-      th:nth-child(6), td:nth-child(6), th:nth-child(7), td:nth-child(7) {{ display: none; }}
     }}
   </style>
 </head>
 <body>
   <header>
     <h1>基金助手日报</h1>
-    <div>{escape_html(context['report_date'])} · 目标仓位 + 回调增强 + 风险过滤</div>
+    <div>{escape_html(context['report_date'])} · 基金质量 + 组合再平衡 + 机会因子</div>
   </header>
   <main>
     <div class="grid">
@@ -452,7 +698,7 @@ def render_dashboard(context, plan):
     <section>
       <h2>今日计划</h2>
       <table>
-        <thead><tr><th>基金</th><th>档位</th><th>金额</th><th>净值日/涨跌</th><th>评分</th><th>依据</th><th>风险</th></tr></thead>
+        <thead><tr><th>基金</th><th>动作</th><th>金额</th><th>质量</th><th>配置</th><th>机会</th><th>优先级</th><th>依据</th><th>风险</th></tr></thead>
         <tbody>{''.join(rows)}</tbody>
       </table>
     </section>

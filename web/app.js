@@ -92,7 +92,7 @@ function renderBuyCard(item) {
         <span>${escapeHtml(item.name)} (${escapeHtml(item.code)})</span>
         <span class="amount">${currency.format(item.amount || 0)}</span>
       </div>
-      <div class="muted">评分 ${item.score ?? "-"}，净值日期 ${item.latest_date || "-"}</div>
+      <div class="muted">质量 ${item.quality_score ?? "-"}，配置 ${item.allocation_score ?? "-"}，机会 ${item.opportunity_factor ?? "-"}，优先级 ${item.priority_score ?? item.score ?? "-"}</div>
       <div>${escapeHtml((item.reasons || []).slice(0, 3).join("；"))}</div>
     </article>
   `;
@@ -104,7 +104,10 @@ function renderDecisionRow(item) {
       <td><strong>${escapeHtml(item.name)}</strong><br><span class="muted">${escapeHtml(item.code)}</span></td>
       <td class="${tierClass(item.action || item.tier)}">${escapeHtml(item.action || item.tier || "-")}</td>
       <td>${currency.format(item.amount || 0)}</td>
-      <td>${item.score ?? "-"}</td>
+      <td>${item.quality_score ?? "-"}</td>
+      <td>${item.allocation_score ?? "-"}</td>
+      <td>${item.opportunity_factor ?? "-"}</td>
+      <td>${item.priority_score ?? item.score ?? "-"}</td>
       <td>${item.latest_date || "-"}</td>
       <td>${escapeHtml((item.reasons || []).join("；"))}<br><span class="muted">${escapeHtml((item.risks || []).join("；"))}</span></td>
     </tr>

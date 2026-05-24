@@ -8,15 +8,15 @@
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f6f7fb; }
     header { padding: 28px 32px; background: #ffffff; border-bottom: 1px solid #e6e8ef; }
     h1 { margin: 0 0 8px; font-size: 28px; }
-    main { max-width: 1180px; margin: 0 auto; padding: 24px; }
+    main { max-width: 1280px; margin: 0 auto; padding: 24px; }
     .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
     .metric, section { background: #fff; border: 1px solid #e6e8ef; border-radius: 8px; }
     .metric { padding: 16px; }
     .metric span { display: block; color: #667085; font-size: 13px; }
     .metric strong { display: block; margin-top: 6px; font-size: 24px; }
-    section { padding: 18px; margin-bottom: 18px; }
+    section { padding: 18px; margin-bottom: 18px; overflow: auto; }
     h2 { margin: 0 0 14px; font-size: 18px; }
-    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    table { width: 100%; border-collapse: collapse; min-width: 1100px; }
     th, td { padding: 12px; border-top: 1px solid #edf0f5; text-align: left; vertical-align: top; font-size: 14px; }
     th { color: #667085; font-weight: 600; background: #fafbfe; }
     td span { display: block; color: #667085; font-size: 12px; margin-top: 4px; }
@@ -29,28 +29,26 @@
     @media (max-width: 860px) {
       main { padding: 14px; }
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      table { table-layout: auto; }
-      th:nth-child(6), td:nth-child(6), th:nth-child(7), td:nth-child(7) { display: none; }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>基金助手日报</h1>
-    <div>2026-05-24 · 目标仓位 + 回调增强 + 风险过滤</div>
+    <div>2026-05-24 · 基金质量 + 组合再平衡 + 机会因子</div>
   </header>
   <main>
     <div class="grid">
       <div class="metric"><span>持仓总额</span><strong>1,046 元</strong></div>
       <div class="metric"><span>今日预算</span><strong>75 元</strong></div>
-      <div class="metric"><span>计划买入</span><strong>30 元</strong></div>
-      <div class="metric"><span>暂不使用</span><strong>45 元</strong></div>
+      <div class="metric"><span>计划买入</span><strong>70 元</strong></div>
+      <div class="metric"><span>暂不使用</span><strong>5 元</strong></div>
     </div>
     <section>
       <h2>今日计划</h2>
       <table>
-        <thead><tr><th>基金</th><th>档位</th><th>金额</th><th>净值日/涨跌</th><th>评分</th><th>依据</th><th>风险</th></tr></thead>
-        <tbody><tr><td><strong>易方达恒生科技ETF联接(QDII)A</strong><span>013308</span></td><td><b class='buy'>可以买</b></td><td>30 元</td><td>2026-05-20<span>0.34%</span></td><td>4.75</td><td>近250条净值处于低位；仓位低于目标；近一周有回撤</td><td>QDII/海外基金净值有延迟，需要降低对今日涨跌的权重</td></tr><tr><td><strong>南方标普红利低波50ETF联接A</strong><span>008163</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>2026-05-22<span>-0.39%</span></td><td>3.0</td><td>近250条净值处于低位</td><td>未触发明显单项风险</td></tr><tr><td><strong>浦银安盛全球智能科技股票(QDII)A</strong><span>006555</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>2026-05-19<span>-0.66%</span></td><td>0.5</td><td>仓位明显低于目标；今日小幅回调；近一周有回撤</td><td>近250条净值位置中性偏高；近一月涨幅较大；QDII/海外基金净值有延迟，需要降低对今日涨跌的权重</td></tr><tr><td><strong>博时标普500ETF联接(QDII)A</strong><span>050025</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>2026-05-19<span>-0.71%</span></td><td>-1.25</td><td>仓位明显低于目标；今日小幅回调</td><td>近250条净值位置偏高，追涨风险较大；QDII/海外基金净值有延迟，需要降低对今日涨跌的权重</td></tr><tr><td><strong>广发纳斯达克100ETF联接人民币(QDII)A</strong><span>270042</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-19<span>-0.70%</span></td><td>-3.25</td><td>仓位低于目标；今日小幅回调</td><td>近250条净值位置偏高，追涨风险较大；持仓已有较高浮盈；QDII/海外基金净值有延迟，需要降低对今日涨跌的权重</td></tr><tr><td><strong>大成纳斯达克100ETF联接(QDII)A</strong><span>000834</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-19<span>-0.70%</span></td><td>-3.25</td><td>仓位低于目标；今日小幅回调</td><td>近250条净值位置偏高，追涨风险较大；持仓已有较高浮盈；QDII/海外基金净值有延迟，需要降低对今日涨跌的权重</td></tr><tr><td><strong>易方达沪深300ETF联接A</strong><span>110020</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-22<span>1.21%</span></td><td>-4.0</td><td>仓位低于目标</td><td>近250条净值位置偏高，追涨风险较大；今日已有上涨</td></tr><tr><td><strong>易方达中证A500ETF联接A</strong><span>022459</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>0.16%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>金信民兴债券A</strong><span>004400</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>0.02%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内；当前仓位明显超过目标仓位；债券 分类仓位已超过上限</td></tr><tr><td><strong>易方达中证红利ETF联接发起式A</strong><span>009051</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>-0.31%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>长城短债A</strong><span>007194</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>0.02%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内；当前仓位明显超过目标仓位；债券 分类仓位已超过上限</td></tr><tr><td><strong>国泰黄金ETF联接A</strong><span>000218</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>-1.32%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>华安汇嘉精选混合A</strong><span>010385</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>1.56%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>银华农业产业股票发起式C</strong><span>014064</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>-1.19%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>汇添富实业债债券C</strong><span>000123</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>2026-05-20<span>0.02%</span></td><td>-99</td><td>触发硬性风控</td><td>净值距今天 4 天，境内基金允许 3 天内；债券 分类仓位已超过上限</td></tr></tbody>
+        <thead><tr><th>基金</th><th>动作</th><th>金额</th><th>质量</th><th>配置</th><th>机会</th><th>优先级</th><th>依据</th><th>风险</th></tr></thead>
+        <tbody><tr><td><strong>华安汇嘉精选混合A</strong><span>010385</span></td><td><b class='buy'>可以买</b></td><td>20 元</td><td>81.0</td><td>90</td><td>0.94</td><td>61.67</td><td>基金质量 81.0/100（优秀）；配置缺口 80 元，偏离 88.6%：严重低配，但仍受单日预算限制；机会因子 0.94：净值位置中性偏高；近一周有回撤</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>浦银安盛全球智能科技股票(QDII)A</strong><span>006555</span></td><td><b class='buy'>可以买</b></td><td>20 元</td><td>83.6</td><td>90</td><td>0.81</td><td>60.94</td><td>基金质量 83.6/100（优秀）；配置缺口 79 元，偏离 88.3%：严重低配，但仍受单日预算限制；机会因子 0.81：净值位置中性偏高；近一周有回撤；近一月涨幅较大；QDII/海外基金净值存在延迟，机会因子保守处理</td><td>未触发明显单项风险</td></tr><tr><td><strong>易方达中证A500ETF联接A</strong><span>022459</span></td><td><b class='buy'>可以买</b></td><td>20 元</td><td>86.8</td><td>90</td><td>0.84</td><td>59.06</td><td>基金质量 86.8/100（优秀）；配置缺口 42 元，偏离 30.9%：严重低配，但仍受单日预算限制；机会因子 0.84：净值位置偏高；近一周有回撤</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>博时标普500ETF联接(QDII)A</strong><span>050025</span></td><td><b class='buy'>可以买</b></td><td>10 元</td><td>85.7</td><td>90</td><td>0.75</td><td>57.85</td><td>基金质量 85.7/100（优秀）；配置缺口 69 元，偏离 77.0%：严重低配，但仍受单日预算限制；机会因子 0.75：净值位置偏高；QDII/海外基金净值存在延迟，机会因子保守处理</td><td>未触发明显单项风险</td></tr><tr><td><strong>易方达中证红利ETF联接发起式A</strong><span>009051</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>70.7</td><td>90</td><td>1.0</td><td>57.27</td><td>基金质量 70.7/100（合格）；配置缺口 53 元，偏离 47.0%：严重低配，但仍受单日预算限制；机会因子 1.0：无明显估值/回撤机会，机会因子保持中性</td><td>净值距今天 4 天，境内基金允许 3 天内</td></tr><tr><td><strong>国泰黄金ETF联接A</strong><span>000218</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>62.8</td><td>90</td><td>1.11</td><td>56.46</td><td>基金质量 62.8/100（一般）；配置缺口 48 元，偏离 71.0%：严重低配，但仍受单日预算限制；机会因子 1.11：近一周有回撤；当前资产历史回撤较深，允许小幅提高补仓优先级</td><td>净值距今天 4 天，境内基金允许 3 天内；基金质量分低于买入阈值 65</td></tr><tr><td><strong>银华农业产业股票发起式C</strong><span>014064</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>55.2</td><td>90</td><td>1.24</td><td>55.44</td><td>基金质量 55.2/100（一般）；配置缺口 46 元，偏离 82.2%：严重低配，但仍受单日预算限制；机会因子 1.24：净值处于历史低位；近一周有回撤</td><td>净值距今天 4 天，境内基金允许 3 天内；基金质量分低于买入阈值 65</td></tr><tr><td><strong>大成纳斯达克100ETF联接(QDII)A</strong><span>000834</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>81.2</td><td>90</td><td>0.75</td><td>54.81</td><td>基金质量 81.2/100（优秀）；配置缺口 46 元，偏离 51.6%：严重低配，但仍受单日预算限制；机会因子 0.75：净值位置偏高；QDII/海外基金净值存在延迟，机会因子保守处理</td><td>未触发明显单项风险</td></tr><tr><td><strong>易方达恒生科技ETF联接(QDII)A</strong><span>013308</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>45.1</td><td>90</td><td>1.26</td><td>51.14</td><td>基金质量 45.1/100（偏弱）；配置缺口 34 元，偏离 37.9%：严重低配，但仍受单日预算限制；机会因子 1.26：净值处于历史低位；近一周有回撤；当前资产历史回撤较深，允许小幅提高补仓优先级；QDII/海外基金净值存在延迟，机会因子保守处理</td><td>基金质量分低于买入阈值 65</td></tr><tr><td><strong>易方达沪深300ETF联接A</strong><span>110020</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>87.2</td><td>70</td><td>0.78</td><td>47.61</td><td>基金质量 87.2/100（优秀）；配置缺口 31 元，偏离 23.2%：明显低配，优先补齐；机会因子 0.78：净值位置偏高</td><td>未触发明显单项风险</td></tr><tr><td><strong>广发纳斯达克100ETF联接人民币(QDII)A</strong><span>270042</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>81.0</td><td>70</td><td>0.75</td><td>42.53</td><td>基金质量 81.0/100（优秀）；配置缺口 24 元，偏离 26.5%：明显低配，优先补齐；机会因子 0.75：净值位置偏高；QDII/海外基金净值存在延迟，机会因子保守处理</td><td>未触发明显单项风险</td></tr><tr><td><strong>南方标普红利低波50ETF联接A</strong><span>008163</span></td><td><b class='watch'>可观察</b></td><td>0 元</td><td>53.3</td><td>0</td><td>1.18</td><td>0.0</td><td>基金质量 53.3/100（一般）；配置缺口 -7 元，偏离 -6.2%：当前仓位不低于目标，不使用新增资金；机会因子 1.18：净值处于历史低位</td><td>基金质量分低于买入阈值 65；组合不需要继续补该标的</td></tr><tr><td><strong>金信民兴债券A</strong><span>004400</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>72.8</td><td>0</td><td>1.08</td><td>0</td><td>基金质量 72.8/100（合格）；配置缺口 -31 元，偏离 -17.2%：当前仓位不低于目标，不使用新增资金；机会因子 1.08：净值位置不高</td><td>净值距今天 4 天，境内基金允许 3 天内；组合不需要继续补该标的；当前仓位超过目标仓位 120%；债券 分类仓位已超过上限</td></tr><tr><td><strong>长城短债A</strong><span>007194</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>92.2</td><td>0</td><td>0.78</td><td>0</td><td>基金质量 92.2/100（优秀）；配置缺口 -36 元，偏离 -20.0%：当前仓位不低于目标，不使用新增资金；机会因子 0.78：净值位置偏高</td><td>净值距今天 4 天，境内基金允许 3 天内；组合不需要继续补该标的；当前仓位超过目标仓位 120%；债券 分类仓位已超过上限</td></tr><tr><td><strong>汇添富实业债债券C</strong><span>000123</span></td><td><b class='pause'>禁止买</b></td><td>0 元</td><td>85.7</td><td>90</td><td>0.78</td><td>0</td><td>基金质量 85.7/100（优秀）；配置缺口 80 元，偏离 88.9%：严重低配，但仍受单日预算限制；机会因子 0.78：净值位置偏高</td><td>净值距今天 4 天，境内基金允许 3 天内；债券 分类仓位已超过上限</td></tr></tbody>
       </table>
     </section>
     <section>

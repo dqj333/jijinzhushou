@@ -1,48 +1,711 @@
 {
   "daily_budget": 75.0,
-  "planned_amount": 30,
-  "cash_left": 45.0,
+  "planned_amount": 70,
+  "cash_left": 5.0,
   "algorithm": {
-    "name": "目标仓位 + 回调增强 + 风险过滤",
-    "budget_rule": "月预算按20个交易日折算为日预算，不强行用完",
-    "amount_rule": "强信号30-40元，中信号20元，弱信号10元；单日最多买4只",
+    "name": "基金质量 + 组合再平衡 + 机会因子",
+    "budget_rule": "月预算按约20个交易日折算为日预算；新增资金优先补低配资产，不强行用完",
+    "amount_rule": "候选需质量分>=65且低配；按优先级比例分配；单只最高50%日预算；单日最多4只",
     "hard_filters": [
-      "数据过期",
-      "仓位明显超目标",
-      "分类仓位超上限",
-      "目标仓位为0"
+      "无可用净值或数据过旧",
+      "目标仓位为0",
+      "仓位超过目标120%",
+      "单基金或分类仓位超过上限"
     ]
   },
   "decisions": [
     {
-      "code": "013308",
-      "name": "易方达恒生科技ETF联接(QDII)A",
+      "code": "010385",
+      "name": "华安汇嘉精选混合A",
       "tier": "可以买",
-      "score": 4.75,
+      "score": 61.67,
+      "priority_score": 61.67,
+      "quality_score": 81.0,
+      "allocation_score": 90,
+      "opportunity_factor": 0.94,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 100,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 2.48"
+        },
+        "drawdown_control": {
+          "score": 69.0,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -11.83%"
+        },
+        "stability": {
+          "score": 69.0,
+          "label": "稳定性",
+          "note": "5 个观察周期中 60% 为正收益"
+        },
+        "category_fit": {
+          "score": 58,
+          "label": "类别适配",
+          "note": "主动权益需要补充经理和同类排名数据"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 89.69,
+        "gap_amount": 79.51,
+        "gap_ratio": 0.8865,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
       "reasons": [
-        "近250条净值处于低位",
-        "仓位低于目标",
-        "近一周有回撤"
+        "基金质量 81.0/100（优秀）",
+        "配置缺口 80 元，偏离 88.6%：严重低配，但仍受单日预算限制",
+        "机会因子 0.94：净值位置中性偏高；近一周有回撤"
       ],
       "risks": [
-        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 1.56,
+      "blocked": false,
+      "action": "可以买",
+      "amount": 20
+    },
+    {
+      "code": "006555",
+      "name": "浦银安盛全球智能科技股票(QDII)A",
+      "tier": "可以买",
+      "score": 60.94,
+      "priority_score": 60.94,
+      "quality_score": 83.6,
+      "allocation_score": 90,
+      "opportunity_factor": 0.81,
+      "data_confidence": 1.0,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 100,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 2.00"
+        },
+        "drawdown_control": {
+          "score": 65.9,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -13.22%"
+        },
+        "stability": {
+          "score": 73.0,
+          "label": "稳定性",
+          "note": "5 个观察周期中 80% 为正收益"
+        },
+        "category_fit": {
+          "score": 62,
+          "label": "类别适配",
+          "note": "主题/行业波动较大，需要控制仓位"
+        },
+        "data_quality": {
+          "score": 100,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 5 天，QDII/海外基金允许 5 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 89.69,
+        "gap_amount": 79.21,
+        "gap_ratio": 0.8831,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 83.6/100（优秀）",
+        "配置缺口 79 元，偏离 88.3%：严重低配，但仍受单日预算限制",
+        "机会因子 0.81：净值位置中性偏高；近一周有回撤；近一月涨幅较大；QDII/海外基金净值存在延迟，机会因子保守处理"
+      ],
+      "risks": [
+        "未触发明显单项风险"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.66,
+      "blocked": false,
+      "action": "可以买",
+      "amount": 20
+    },
+    {
+      "code": "022459",
+      "name": "易方达中证A500ETF联接A",
+      "tier": "可以买",
+      "score": 59.06,
+      "priority_score": 59.06,
+      "quality_score": 86.8,
+      "allocation_score": 90,
+      "opportunity_factor": 0.84,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 100,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 1.95"
+        },
+        "drawdown_control": {
+          "score": 76.9,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -8.24%"
+        },
+        "stability": {
+          "score": 76.8,
+          "label": "稳定性",
+          "note": "5 个观察周期中 80% 为正收益"
+        },
+        "category_fit": {
+          "score": 82,
+          "label": "类别适配",
+          "note": "宽基/海外宽基分散度较高"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 134.53,
+        "gap_amount": 41.51,
+        "gap_ratio": 0.3086,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 86.8/100（优秀）",
+        "配置缺口 42 元，偏离 30.9%：严重低配，但仍受单日预算限制",
+        "机会因子 0.84：净值位置偏高；近一周有回撤"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": 0.16,
+      "blocked": false,
+      "action": "可以买",
+      "amount": 20
+    },
+    {
+      "code": "050025",
+      "name": "博时标普500ETF联接(QDII)A",
+      "tier": "可以买",
+      "score": 57.85,
+      "priority_score": 57.85,
+      "quality_score": 85.7,
+      "allocation_score": 90,
+      "opportunity_factor": 0.75,
+      "data_confidence": 1.0,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 94.4,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 1.59"
+        },
+        "drawdown_control": {
+          "score": 73.9,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -9.57%"
+        },
+        "stability": {
+          "score": 79.2,
+          "label": "稳定性",
+          "note": "5 个观察周期中 80% 为正收益"
+        },
+        "category_fit": {
+          "score": 82,
+          "label": "类别适配",
+          "note": "宽基/海外宽基分散度较高"
+        },
+        "data_quality": {
+          "score": 100,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 5 天，QDII/海外基金允许 5 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 89.69,
+        "gap_amount": 69.03,
+        "gap_ratio": 0.7696,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 85.7/100（优秀）",
+        "配置缺口 69 元，偏离 77.0%：严重低配，但仍受单日预算限制",
+        "机会因子 0.75：净值位置偏高；QDII/海外基金净值存在延迟，机会因子保守处理"
+      ],
+      "risks": [
+        "未触发明显单项风险"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.71,
+      "blocked": false,
+      "action": "可以买",
+      "amount": 10
+    },
+    {
+      "code": "009051",
+      "name": "易方达中证红利ETF联接发起式A",
+      "tier": "可以买",
+      "score": 57.27,
+      "priority_score": 57.27,
+      "quality_score": 70.7,
+      "allocation_score": 90,
+      "opportunity_factor": 1.0,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 61.3,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 0.40"
+        },
+        "drawdown_control": {
+          "score": 79.1,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -7.22%"
+        },
+        "stability": {
+          "score": 59.5,
+          "label": "稳定性",
+          "note": "5 个观察周期中 20% 为正收益"
+        },
+        "category_fit": {
+          "score": 78,
+          "label": "类别适配",
+          "note": "红利低波类具备防守和分红属性"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 112.11,
+        "gap_amount": 52.75,
+        "gap_ratio": 0.4705,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 70.7/100（合格）",
+        "配置缺口 53 元，偏离 47.0%：严重低配，但仍受单日预算限制",
+        "机会因子 1.0：无明显估值/回撤机会，机会因子保持中性"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": -0.31,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "000218",
+      "name": "国泰黄金ETF联接A",
+      "tier": "可观察",
+      "score": 56.46,
+      "priority_score": 56.46,
+      "quality_score": 62.8,
+      "allocation_score": 90,
+      "opportunity_factor": 1.11,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 69.5,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 0.70"
+        },
+        "drawdown_control": {
+          "score": 40.0,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -25.02%"
+        },
+        "stability": {
+          "score": 59.0,
+          "label": "稳定性",
+          "note": "5 个观察周期中 40% 为正收益"
+        },
+        "category_fit": {
+          "score": 72,
+          "label": "类别适配",
+          "note": "黄金更适合作为组合对冲资产"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 67.27,
+        "gap_amount": 47.74,
+        "gap_ratio": 0.7097,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 62.8/100（一般）",
+        "配置缺口 48 元，偏离 71.0%：严重低配，但仍受单日预算限制",
+        "机会因子 1.11：近一周有回撤；当前资产历史回撤较深，允许小幅提高补仓优先级"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内",
+        "基金质量分低于买入阈值 65"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": -1.32,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "014064",
+      "name": "银华农业产业股票发起式C",
+      "tier": "可观察",
+      "score": 55.44,
+      "priority_score": 55.44,
+      "quality_score": 55.2,
+      "allocation_score": 90,
+      "opportunity_factor": 1.24,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 38.6,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 -0.23"
+        },
+        "drawdown_control": {
+          "score": 52.1,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -19.48%"
+        },
+        "stability": {
+          "score": 45.0,
+          "label": "稳定性",
+          "note": "5 个观察周期中 0% 为正收益"
+        },
+        "category_fit": {
+          "score": 62,
+          "label": "类别适配",
+          "note": "主题/行业波动较大，需要控制仓位"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 56.05,
+        "gap_amount": 46.07,
+        "gap_ratio": 0.822,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 55.2/100（一般）",
+        "配置缺口 46 元，偏离 82.2%：严重低配，但仍受单日预算限制",
+        "机会因子 1.24：净值处于历史低位；近一周有回撤"
+      ],
+      "risks": [
+        "净值距今天 4 天，境内基金允许 3 天内",
+        "基金质量分低于买入阈值 65"
+      ],
+      "latest_date": "2026-05-20",
+      "daily_return_pct": -1.19,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "000834",
+      "name": "大成纳斯达克100ETF联接(QDII)A",
+      "tier": "可以买",
+      "score": 54.81,
+      "priority_score": 54.81,
+      "quality_score": 81.2,
+      "allocation_score": 90,
+      "opportunity_factor": 0.75,
+      "data_confidence": 1.0,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 98.6,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 1.74"
+        },
+        "drawdown_control": {
+          "score": 64.2,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -14.01%"
+        },
+        "stability": {
+          "score": 75.6,
+          "label": "稳定性",
+          "note": "5 个观察周期中 80% 为正收益"
+        },
+        "category_fit": {
+          "score": 62,
+          "label": "类别适配",
+          "note": "主题/行业波动较大，需要控制仓位"
+        },
+        "data_quality": {
+          "score": 100,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 5 天，QDII/海外基金允许 5 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 89.69,
+        "gap_amount": 46.26,
+        "gap_ratio": 0.5158,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 81.2/100（优秀）",
+        "配置缺口 46 元，偏离 51.6%：严重低配，但仍受单日预算限制",
+        "机会因子 0.75：净值位置偏高；QDII/海外基金净值存在延迟，机会因子保守处理"
+      ],
+      "risks": [
+        "未触发明显单项风险"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.7,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "013308",
+      "name": "易方达恒生科技ETF联接(QDII)A",
+      "tier": "禁止买",
+      "score": 51.14,
+      "priority_score": 51.14,
+      "quality_score": 45.1,
+      "allocation_score": 90,
+      "opportunity_factor": 1.26,
+      "data_confidence": 1.0,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 32.7,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 -0.44"
+        },
+        "drawdown_control": {
+          "score": 30.5,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -29.32%"
+        },
+        "stability": {
+          "score": 45.0,
+          "label": "稳定性",
+          "note": "5 个观察周期中 0% 为正收益"
+        },
+        "category_fit": {
+          "score": 62,
+          "label": "类别适配",
+          "note": "主题/行业波动较大，需要控制仓位"
+        },
+        "data_quality": {
+          "score": 100,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，QDII/海外基金允许 5 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 89.69,
+        "gap_amount": 33.99,
+        "gap_ratio": 0.379,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
+      "reasons": [
+        "基金质量 45.1/100（偏弱）",
+        "配置缺口 34 元，偏离 37.9%：严重低配，但仍受单日预算限制",
+        "机会因子 1.26：净值处于历史低位；近一周有回撤；当前资产历史回撤较深，允许小幅提高补仓优先级；QDII/海外基金净值存在延迟，机会因子保守处理"
+      ],
+      "risks": [
+        "基金质量分低于买入阈值 65"
       ],
       "latest_date": "2026-05-20",
       "daily_return_pct": 0.34,
+      "blocked": true,
+      "action": "禁止买",
+      "amount": 0
+    },
+    {
+      "code": "110020",
+      "name": "易方达沪深300ETF联接A",
+      "tier": "可以买",
+      "score": 47.61,
+      "priority_score": 47.61,
+      "quality_score": 87.2,
+      "allocation_score": 70,
+      "opportunity_factor": 0.78,
+      "data_confidence": 1.0,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 95.4,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 1.62"
+        },
+        "drawdown_control": {
+          "score": 79.1,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -7.24%"
+        },
+        "stability": {
+          "score": 78.2,
+          "label": "稳定性",
+          "note": "5 个观察周期中 80% 为正收益"
+        },
+        "category_fit": {
+          "score": 82,
+          "label": "类别适配",
+          "note": "宽基/海外宽基分散度较高"
+        },
+        "data_quality": {
+          "score": 100,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 2 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 134.53,
+        "gap_amount": 31.18,
+        "gap_ratio": 0.2318,
+        "score": 70,
+        "note": "明显低配，优先补齐"
+      },
+      "reasons": [
+        "基金质量 87.2/100（优秀）",
+        "配置缺口 31 元，偏离 23.2%：明显低配，优先补齐",
+        "机会因子 0.78：净值位置偏高"
+      ],
+      "risks": [
+        "未触发明显单项风险"
+      ],
+      "latest_date": "2026-05-22",
+      "daily_return_pct": 1.21,
       "blocked": false,
-      "action": "可以买",
-      "amount": 30
+      "action": "可观察",
+      "amount": 0
+    },
+    {
+      "code": "270042",
+      "name": "广发纳斯达克100ETF联接人民币(QDII)A",
+      "tier": "可观察",
+      "score": 42.53,
+      "priority_score": 42.53,
+      "quality_score": 81.0,
+      "allocation_score": 70,
+      "opportunity_factor": 0.75,
+      "data_confidence": 1.0,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 98.4,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 1.73"
+        },
+        "drawdown_control": {
+          "score": 63.6,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -14.26%"
+        },
+        "stability": {
+          "score": 75.5,
+          "label": "稳定性",
+          "note": "5 个观察周期中 80% 为正收益"
+        },
+        "category_fit": {
+          "score": 62,
+          "label": "类别适配",
+          "note": "主题/行业波动较大，需要控制仓位"
+        },
+        "data_quality": {
+          "score": 100,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 5 天，QDII/海外基金允许 5 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 89.69,
+        "gap_amount": 23.76,
+        "gap_ratio": 0.2649,
+        "score": 70,
+        "note": "明显低配，优先补齐"
+      },
+      "reasons": [
+        "基金质量 81.0/100（优秀）",
+        "配置缺口 24 元，偏离 26.5%：明显低配，优先补齐",
+        "机会因子 0.75：净值位置偏高；QDII/海外基金净值存在延迟，机会因子保守处理"
+      ],
+      "risks": [
+        "未触发明显单项风险"
+      ],
+      "latest_date": "2026-05-19",
+      "daily_return_pct": -0.7,
+      "blocked": false,
+      "action": "可观察",
+      "amount": 0
     },
     {
       "code": "008163",
       "name": "南方标普红利低波50ETF联接A",
       "tier": "可观察",
-      "score": 3.0,
+      "score": 0.0,
+      "priority_score": 0.0,
+      "quality_score": 53.3,
+      "allocation_score": 0,
+      "opportunity_factor": 1.18,
+      "data_confidence": 1.0,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 18.8,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 -0.94"
+        },
+        "drawdown_control": {
+          "score": 68.0,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -12.29%"
+        },
+        "stability": {
+          "score": 53.4,
+          "label": "稳定性",
+          "note": "5 个观察周期中 0% 为正收益"
+        },
+        "category_fit": {
+          "score": 78,
+          "label": "类别适配",
+          "note": "红利低波类具备防守和分红属性"
+        },
+        "data_quality": {
+          "score": 100,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 2 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 112.11,
+        "gap_amount": -7.0,
+        "gap_ratio": -0.0624,
+        "score": 0,
+        "note": "当前仓位不低于目标，不使用新增资金"
+      },
       "reasons": [
-        "近250条净值处于低位"
+        "基金质量 53.3/100（一般）",
+        "配置缺口 -7 元，偏离 -6.2%：当前仓位不低于目标，不使用新增资金",
+        "机会因子 1.18：净值处于历史低位"
       ],
       "risks": [
-        "未触发明显单项风险"
+        "基金质量分低于买入阈值 65",
+        "组合不需要继续补该标的"
       ],
       "latest_date": "2026-05-22",
       "daily_return_pct": -0.39,
@@ -51,152 +714,62 @@
       "amount": 0
     },
     {
-      "code": "006555",
-      "name": "浦银安盛全球智能科技股票(QDII)A",
-      "tier": "可观察",
-      "score": 0.5,
-      "reasons": [
-        "仓位明显低于目标",
-        "今日小幅回调",
-        "近一周有回撤"
-      ],
-      "risks": [
-        "近250条净值位置中性偏高",
-        "近一月涨幅较大",
-        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
-      ],
-      "latest_date": "2026-05-19",
-      "daily_return_pct": -0.66,
-      "blocked": false,
-      "action": "可观察",
-      "amount": 0
-    },
-    {
-      "code": "050025",
-      "name": "博时标普500ETF联接(QDII)A",
-      "tier": "可观察",
-      "score": -1.25,
-      "reasons": [
-        "仓位明显低于目标",
-        "今日小幅回调"
-      ],
-      "risks": [
-        "近250条净值位置偏高，追涨风险较大",
-        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
-      ],
-      "latest_date": "2026-05-19",
-      "daily_return_pct": -0.71,
-      "blocked": false,
-      "action": "可观察",
-      "amount": 0
-    },
-    {
-      "code": "270042",
-      "name": "广发纳斯达克100ETF联接人民币(QDII)A",
-      "tier": "禁止买",
-      "score": -3.25,
-      "reasons": [
-        "仓位低于目标",
-        "今日小幅回调"
-      ],
-      "risks": [
-        "近250条净值位置偏高，追涨风险较大",
-        "持仓已有较高浮盈",
-        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
-      ],
-      "latest_date": "2026-05-19",
-      "daily_return_pct": -0.7,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
-      "code": "000834",
-      "name": "大成纳斯达克100ETF联接(QDII)A",
-      "tier": "禁止买",
-      "score": -3.25,
-      "reasons": [
-        "仓位低于目标",
-        "今日小幅回调"
-      ],
-      "risks": [
-        "近250条净值位置偏高，追涨风险较大",
-        "持仓已有较高浮盈",
-        "QDII/海外基金净值有延迟，需要降低对今日涨跌的权重"
-      ],
-      "latest_date": "2026-05-19",
-      "daily_return_pct": -0.7,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
-      "code": "110020",
-      "name": "易方达沪深300ETF联接A",
-      "tier": "禁止买",
-      "score": -4.0,
-      "reasons": [
-        "仓位低于目标"
-      ],
-      "risks": [
-        "近250条净值位置偏高，追涨风险较大",
-        "今日已有上涨"
-      ],
-      "latest_date": "2026-05-22",
-      "daily_return_pct": 1.21,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
-      "code": "022459",
-      "name": "易方达中证A500ETF联接A",
-      "tier": "禁止买",
-      "score": -99,
-      "reasons": [
-        "触发硬性风控"
-      ],
-      "risks": [
-        "净值距今天 4 天，境内基金允许 3 天内"
-      ],
-      "latest_date": "2026-05-20",
-      "daily_return_pct": 0.16,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
       "code": "004400",
       "name": "金信民兴债券A",
       "tier": "禁止买",
-      "score": -99,
+      "score": 0,
+      "priority_score": 0,
+      "quality_score": 72.8,
+      "allocation_score": 0,
+      "opportunity_factor": 1.08,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 57.9,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 0.28"
+        },
+        "drawdown_control": {
+          "score": 75.9,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -2.39%"
+        },
+        "stability": {
+          "score": 80.1,
+          "label": "稳定性",
+          "note": "5 个观察周期中 60% 为正收益"
+        },
+        "category_fit": {
+          "score": 68,
+          "label": "类别适配",
+          "note": "债券类适合作为稳定仓，但不作为进攻加仓核心"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 179.37,
+        "gap_amount": -30.79,
+        "gap_ratio": -0.1716,
+        "score": 0,
+        "note": "当前仓位不低于目标，不使用新增资金"
+      },
       "reasons": [
-        "触发硬性风控"
+        "基金质量 72.8/100（合格）",
+        "配置缺口 -31 元，偏离 -17.2%：当前仓位不低于目标，不使用新增资金",
+        "机会因子 1.08：净值位置不高"
       ],
       "risks": [
         "净值距今天 4 天，境内基金允许 3 天内",
-        "当前仓位明显超过目标仓位",
+        "组合不需要继续补该标的",
+        "当前仓位超过目标仓位 120%",
         "债券 分类仓位已超过上限"
       ],
       "latest_date": "2026-05-20",
       "daily_return_pct": 0.02,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
-      "code": "009051",
-      "name": "易方达中证红利ETF联接发起式A",
-      "tier": "禁止买",
-      "score": -99,
-      "reasons": [
-        "触发硬性风控"
-      ],
-      "risks": [
-        "净值距今天 4 天，境内基金允许 3 天内"
-      ],
-      "latest_date": "2026-05-20",
-      "daily_return_pct": -0.31,
       "blocked": true,
       "action": "禁止买",
       "amount": 0
@@ -205,13 +778,55 @@
       "code": "007194",
       "name": "长城短债A",
       "tier": "禁止买",
-      "score": -99,
+      "score": 0,
+      "priority_score": 0,
+      "quality_score": 92.2,
+      "allocation_score": 0,
+      "opportunity_factor": 0.78,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 100,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 2.81"
+        },
+        "drawdown_control": {
+          "score": 92.4,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -0.33%"
+        },
+        "stability": {
+          "score": 97.7,
+          "label": "稳定性",
+          "note": "5 个观察周期中 100% 为正收益"
+        },
+        "category_fit": {
+          "score": 68,
+          "label": "类别适配",
+          "note": "债券类适合作为稳定仓，但不作为进攻加仓核心"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 179.37,
+        "gap_amount": -35.84,
+        "gap_ratio": -0.1998,
+        "score": 0,
+        "note": "当前仓位不低于目标，不使用新增资金"
+      },
       "reasons": [
-        "触发硬性风控"
+        "基金质量 92.2/100（优秀）",
+        "配置缺口 -36 元，偏离 -20.0%：当前仓位不低于目标，不使用新增资金",
+        "机会因子 0.78：净值位置偏高"
       ],
       "risks": [
         "净值距今天 4 天，境内基金允许 3 天内",
-        "当前仓位明显超过目标仓位",
+        "组合不需要继续补该标的",
+        "当前仓位超过目标仓位 120%",
         "债券 分类仓位已超过上限"
       ],
       "latest_date": "2026-05-20",
@@ -221,63 +836,53 @@
       "amount": 0
     },
     {
-      "code": "000218",
-      "name": "国泰黄金ETF联接A",
-      "tier": "禁止买",
-      "score": -99,
-      "reasons": [
-        "触发硬性风控"
-      ],
-      "risks": [
-        "净值距今天 4 天，境内基金允许 3 天内"
-      ],
-      "latest_date": "2026-05-20",
-      "daily_return_pct": -1.32,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
-      "code": "010385",
-      "name": "华安汇嘉精选混合A",
-      "tier": "禁止买",
-      "score": -99,
-      "reasons": [
-        "触发硬性风控"
-      ],
-      "risks": [
-        "净值距今天 4 天，境内基金允许 3 天内"
-      ],
-      "latest_date": "2026-05-20",
-      "daily_return_pct": 1.56,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
-      "code": "014064",
-      "name": "银华农业产业股票发起式C",
-      "tier": "禁止买",
-      "score": -99,
-      "reasons": [
-        "触发硬性风控"
-      ],
-      "risks": [
-        "净值距今天 4 天，境内基金允许 3 天内"
-      ],
-      "latest_date": "2026-05-20",
-      "daily_return_pct": -1.19,
-      "blocked": true,
-      "action": "禁止买",
-      "amount": 0
-    },
-    {
       "code": "000123",
       "name": "汇添富实业债债券C",
       "tier": "禁止买",
-      "score": -99,
+      "score": 0,
+      "priority_score": 0,
+      "quality_score": 85.7,
+      "allocation_score": 90,
+      "opportunity_factor": 0.78,
+      "data_confidence": 0.9,
+      "quality_components": {
+        "risk_adjusted_return": {
+          "score": 100,
+          "label": "风险调整收益",
+          "note": "近似风险调整收益 2.95"
+        },
+        "drawdown_control": {
+          "score": 77.7,
+          "label": "回撤控制",
+          "note": "近一年最大回撤 -2.16%"
+        },
+        "stability": {
+          "score": 79.4,
+          "label": "稳定性",
+          "note": "5 个观察周期中 60% 为正收益"
+        },
+        "category_fit": {
+          "score": 68,
+          "label": "类别适配",
+          "note": "债券类适合作为稳定仓，但不作为进攻加仓核心"
+        },
+        "data_quality": {
+          "score": 88,
+          "label": "数据质量",
+          "note": "历史净值 260 条；净值距今天 4 天，境内基金允许 3 天内"
+        }
+      },
+      "allocation": {
+        "target_amount": 89.69,
+        "gap_amount": 79.7,
+        "gap_ratio": 0.8886,
+        "score": 90,
+        "note": "严重低配，但仍受单日预算限制"
+      },
       "reasons": [
-        "触发硬性风控"
+        "基金质量 85.7/100（优秀）",
+        "配置缺口 80 元，偏离 88.9%：严重低配，但仍受单日预算限制",
+        "机会因子 0.78：净值位置偏高"
       ],
       "risks": [
         "净值距今天 4 天，境内基金允许 3 天内",
